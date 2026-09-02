@@ -25,19 +25,6 @@ Apply the Supabase migrations in order before enabling lead persistence:
 11. `supabase/migrations/0011_public_funnel_hardening.sql`
 12. `supabase/migrations/0012_las_vegas_valley_markets.sql`
 
-### Development seed data
-
-After applying all migrations to a local or disposable Supabase project, run
-`supabase/seed.sql` with the Supabase SQL editor or local CLI. The seed is
-idempotent for its own deterministic fixtures and creates eight clearly marked
-fictional leads across the dashboard pipeline.
-
-- Dashboard email: `admin@haven.test`
-- Dashboard password: `HavenDemo!2026`
-
-The seed contains a development-only password and fictional contact/property
-data. Never run it against a production project.
-
 Set `SUPABASE_SERVICE_ROLE_KEY` only in the server environment; never expose it with a `NEXT_PUBLIC_` prefix. The questionnaire keeps a local recovery copy after each completed step, syncs steps 1–6 to `lead_drafts`, and transactionally creates the lead, property, situations, consent record, and timeline event at submission.
 
 ## Property intelligence

@@ -1,0 +1,6 @@
+import {createHmac,timingSafeEqual} from "node:crypto";
+
+export function validateTwilioSignature(url:string,parameters:URLSearchParams,signature:string,authToken:string){const payload=[...parameters.entries()].sort(([a],[b])=>a.localeCompare(b)).reduce((value,[key,item])=>value+key+item,url);return safeEqual(createHmac("sha1",authToken).update(payload).digest("base64"),signature)}
+
+export function validateResendSignature(rawBody:string,headers:Headers,secret:string){const id=headers.get("svix-id"),timestamp=headers.get("svix-timestamp"),signature=headers.get("svix-signature");if(!id||!timestamp||!signature)return false;const seconds=Number(timestamp);if(!Number.isFinite(seconds)||Math.abs(Date.now()/1000-seconds)>300)return false;const key=secret.startsWith("whsec_")?secret.slice(6):secret;let decoded:Buffer;try{decoded=Buffer.from(key,"base64")}catch{return false}const expected=createHmac("sha256",decoded).update(`${id}.${timestamp}.${rawBody}`).digest("base64");return signature.split(" ").some(candidate=>candidate.startsWith("v1,")&&safeEqual(expected,candidate.slice(3)))}
+function safeEqual(a:string,b:string){const left=Buffer.from(a),right=Buffer.from(b);return left.length===right.length&&timingSafeEqual(left,right)}
