@@ -1,5 +1,7 @@
 # Search and AI discovery
 
+The production domain is `https://sellhomefastvegas.com`. Set `NEXT_PUBLIC_SITE_URL=https://sellhomefastvegas.com` in the hosting environment before deploying. The business brand remains Haven Home Offers.
+
 Public pages use `src/lib/seo.ts` for titles, descriptions, canonical URLs, Open Graph, and Twitter cards. Keep `NEXT_PUBLIC_SITE_URL` set to the real public HTTPS origin at build time. It must match the domain used in production; configure domain redirects at the host if other domains also serve the site. URL paths and tracking queries are excluded from the configured origin.
 
 `/sitemap.xml` lists canonical public pages. Redirected location aliases, private routes, unsubscribe, completed offer flows, and unfinished legal pages are excluded. `/robots.txt` permits public content for search engines and AI crawlers, while disallowing APIs and acquisitions. `noindex` metadata excludes utility pages; additional `X-Robots-Tag` headers cover API, acquisitions, thank-you, and unsubscribe responses. Robots rules do not replace authentication.
@@ -14,7 +16,7 @@ Run `npm run lint`, `npx tsc --noEmit`, and `npm run build`. Start the productio
 
 ## Production follow-through
 
-1. Confirm the real public domain and set `NEXT_PUBLIC_SITE_URL` before building. Ensure the CDN allows crawlers to public routes and does not expose preview deployments for indexing.
+1. Set `NEXT_PUBLIC_SITE_URL=https://sellhomefastvegas.com` before building. Configure `sellhomefastvegas.com` as the primary domain at the host, enable HTTPS, and redirect HTTP and `www.sellhomefastvegas.com` to `https://sellhomefastvegas.com`. Ensure the CDN allows crawlers to public routes and does not expose preview deployments for indexing.
 2. Add `GOOGLE_SITE_VERIFICATION` and `BING_SITE_VERIFICATION` ownership tokens if using HTML verification. After deployment, verify the properties and submit `/sitemap.xml` in Google Search Console and Bing Webmaster Tools. These account actions are separate from repository changes.
 3. Replace the existing privacy and terms placeholders with approved final text. Then remove their `noindex` and add their paths to the sitemap if they should be searchable.
 4. Add verified business contact details, company identity, team expertise, and genuine case studies or reviews when available. Keep public facts consistent with relevant business listings. Illustrative property stories are explicitly labeled and must not be presented as verified purchases.

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const siteName = "Haven Home Offers";
 // Canonicals always use the public origin, never a request host or a tracking query.
-const configuredUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://havenhomeoffers.com");
+const configuredUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://sellhomefastvegas.com");
 if (!["http:", "https:"].includes(configuredUrl.protocol)) throw new Error("NEXT_PUBLIC_SITE_URL must be an HTTP(S) URL");
 export const siteUrl = configuredUrl.origin;
 export function absoluteUrl(path = "/") {
