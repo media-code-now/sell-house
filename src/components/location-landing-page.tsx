@@ -1,3 +1,4 @@
+import { absoluteUrl } from "@/lib/seo";
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, Building2, Check, ChevronRight, FileSearch, Home, MapPin, MessageSquareQuote, ShieldCheck } from "lucide-react";
 import { AddressOfferForm } from "./address-offer-form";
@@ -9,7 +10,7 @@ export function LocationLandingPage({ content, canonical }: { content: LocationC
   const path = content.kind === "city" ? `/${content.slug}/` : `/${content.parentSlug}/${content.slug}/`;
   const crumbs = [{ name: "Home", url: "/" }, ...(content.kind === "neighborhood" ? [{ name: content.parentCity!, url: `/${content.parentSlug}/` }] : []), { name: content.name, url: path }];
   const jsonLd = { "@context": "https://schema.org", "@graph": [
-    { "@type": "WebPage", "@id": canonical, url: canonical, name: content.title, description: content.description, inLanguage: "en-US", about: { "@type": content.kind === "city" ? "City" : "Place", name: content.name, containedInPlace: { "@type": "State", name: content.state } } },
+    { "@type": "WebPage", "@id": canonical, url: canonical, name: content.title, description: content.description, isPartOf: { "@id": `${absoluteUrl()}#website` }, publisher: { "@id": `${absoluteUrl()}#organization` }, inLanguage: "en-US", about: { "@type": content.kind === "city" ? "City" : "Place", name: content.name, containedInPlace: { "@type": "State", name: content.state } } },
     { "@type": "BreadcrumbList", itemListElement: crumbs.map((crumb, index) => ({ "@type": "ListItem", position: index + 1, name: crumb.name, item: `${canonical.split(`/${content.kind === "city" ? content.slug : content.parentSlug}/`)[0]}${crumb.url}` })) },
     { "@type": "FAQPage", mainEntity: content.faqs.map(([question, answer]) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })) },
   ] };

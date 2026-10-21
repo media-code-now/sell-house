@@ -2,7 +2,7 @@ export type Resource = { label: string; url: string; description: string };
 export type LocalNote = { title: string; body: string; resource?: Resource };
 
 export const seoMarkets = {
-  "las-vegas": { city: "Las Vegas", state: "Nevada", stateCode: "NV", county: "Clark County", marketPath: "/locations/las-vegas" },
+  "las-vegas": { city: "Las Vegas", state: "Nevada", stateCode: "NV", county: "Clark County", marketPath: "/las-vegas" },
 } as const;
 
 export const sellerSituations = {

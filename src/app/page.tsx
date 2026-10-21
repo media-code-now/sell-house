@@ -1,15 +1,20 @@
+import { coreMetadata, absoluteUrl, corePages, siteName } from "@/lib/seo";
+import { StructuredData } from "@/components/structured-data";
+
 import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight, BadgeCheck, CalendarCheck2, Check, CircleDollarSign, Clock3, Hammer,
-  Handshake, HeartCrack, Home, KeyRound, Landmark, MapPin, Paintbrush, Quote,
-  Scale, ShieldCheck, Sparkles, Star, UsersRound, X,
+  Handshake, HeartCrack, Home, KeyRound, Landmark, MapPin, Paintbrush,
+  Scale, ShieldCheck, Sparkles, UsersRound, X,
 } from "lucide-react";
 import { AddressOfferForm } from "@/components/address-offer-form";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { ButtonLink } from "@/components/ui/button-link";
 import { cities, neighborhoods } from "@/lib/location-content";
+
+export const metadata = coreMetadata("/");
 
 const benefits = ["Sell as-is", "No agent commissions", "Choose your closing date", "No repairs required", "No obligation"];
 const steps = [
@@ -30,7 +35,7 @@ const sellerSituations = [
   { icon: Paintbrush, title: "Major repairs" }, { icon: Sparkles, title: "Need to sell quickly" },
 ];
 const comparison = [
-  ["Repairs", "None required", "Often expected"], ["Agent commission", "$0", "Typically 5–6%"],
+  ["Repairs", "None required", "Often expected"], ["Agent commission", "$0", "Negotiated with your agent"],
   ["Showings", "None", "Multiple appointments"], ["Closing timeline", "You choose", "Often 30–90+ days"],
   ["Sale certainty", "Direct offer", "Depends on buyer and financing"],
 ];
@@ -51,6 +56,12 @@ const faqs = [
 export default function HomePage() {
   return (
     <main className="overflow-x-clip pb-20 md:pb-0">
+      <StructuredData data={{ "@context": "https://schema.org", "@graph": [
+        { "@type": "Organization", "@id": `${absoluteUrl()}#organization`, name: siteName, url: absoluteUrl(), description: corePages["/"].description, areaServed: Object.values(cities).map((city) => ({ "@type": "City", name: city.name, containedInPlace: { "@type": "State", name: "Nevada" } })) },
+        { "@type": "WebSite", "@id": `${absoluteUrl()}#website`, url: absoluteUrl(), name: siteName, inLanguage: "en-US", publisher: { "@id": `${absoluteUrl()}#organization` } },
+        { "@type": "WebPage", "@id": `${absoluteUrl()}#webpage`, url: absoluteUrl(), name: corePages["/"].title, description: corePages["/"].description, isPartOf: { "@id": `${absoluteUrl()}#website` }, about: { "@id": `${absoluteUrl()}#organization` } },
+        { "@type": "FAQPage", mainEntity: faqs.map(([question, answer]) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })) },
+      ] }} />
       <section className="relative min-h-[780px] overflow-hidden bg-[var(--ink)] text-white lg:min-h-[830px]">
         <Image src="/images/desert-home-hero.webp" alt="Contemporary home at sunset" fill priority className="object-cover object-[66%_center] opacity-70" sizes="100vw" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,24,31,.98)_0%,rgba(10,24,31,.9)_45%,rgba(10,24,31,.25)_82%)]" />
@@ -59,7 +70,7 @@ export default function HomePage() {
         <div className="container-shell relative z-10 flex min-h-[780px] items-center pb-16 pt-32 lg:min-h-[830px]">
           <div className="max-w-3xl animate-rise">
             <p className="eyebrow flex items-center gap-2 text-[#edb891]"><span className="h-px w-7 bg-current" />A clear path to your next chapter</p>
-            <h1 className="font-display text-balance mt-5 text-[3.25rem] leading-[.96] sm:text-7xl lg:text-[5.35rem]">Need to Sell Your House Fast?</h1>
+            <h1 className="font-display text-balance mt-5 text-[3.25rem] leading-[.96] sm:text-7xl lg:text-[5.35rem]">Sell Your House Fast in Las Vegas</h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-white/75 sm:text-xl">Get a fair cash offer for your property. No repairs, no cleaning, no commissions, and no obligation.</p>
             <AddressOfferForm theme="dark" className="mt-8 max-w-2xl" />
             <div className="mt-7 grid max-w-2xl grid-cols-1 gap-x-5 gap-y-3 text-sm text-white/78 min-[460px]:grid-cols-2 lg:grid-cols-3">{benefits.map((benefit) => <span key={benefit} className="flex items-center gap-2"><span className="grid size-5 shrink-0 place-items-center rounded-full bg-[#e9b28b]/15"><Check className="size-3.5 text-[#edb891]" /></span>{benefit}</span>)}</div>
@@ -103,8 +114,12 @@ export default function HomePage() {
       </section>
 
       <section className="bg-white py-20 sm:py-28">
-        <div className="container-shell"><SectionHeading eyebrow="Homeowner feedback" title="The experience we’re building toward." text="Clear communication, a respectful process, and the freedom to choose what happens next." />
-          <div className="mt-12 grid gap-5 lg:grid-cols-3">{["I understood every step and never felt pushed into a decision.","Being able to leave the repairs behind made the move feel possible.","The flexible closing date gave our family the time we actually needed."].map((quote) => <figure key={quote} className="rounded-2xl border border-[var(--line)] p-7"><div className="flex items-center justify-between"><Quote className="size-7 text-[var(--copper)]"/><span className="rounded-full bg-[var(--paper)] px-2.5 py-1 text-[.6rem] font-bold uppercase tracking-widest text-[var(--ink-soft)]">Content preview</span></div><div className="mt-6 flex gap-1" aria-label="Five stars">{Array.from({length:5}).map((_,i)=><Star key={i} className="size-4 fill-[#c88358] text-[#c88358]"/>)}</div><blockquote className="font-display mt-5 text-2xl leading-snug">“{quote}”</blockquote><figcaption className="mt-6 text-xs text-[var(--ink-soft)]">Replace with a verified client review before launch.</figcaption></figure>)}</div>
+        <div className="container-shell"><SectionHeading eyebrow="What to expect" title="Clear answers. Space to decide." text="A home sale is a significant decision. These commitments guide our process." />
+          <div className="mt-12 grid gap-5 lg:grid-cols-3">{[
+            ["Understand your offer", "Ask how property condition, repair needs, and the closing timeline affect the offer before deciding."],
+            ["Compare your options", "Review a direct sale alongside listing, making repairs, or keeping the property. Consider the costs and tradeoffs of each path."],
+            ["Decide without pressure", "Requesting an offer is free. You can review the details, ask questions, and choose whether to proceed."],
+          ].map(([title, text]) => <article key={title} className="rounded-2xl border border-[var(--line)] p-7"><ShieldCheck className="size-7 text-[var(--copper)]"/><h3 className="font-display mt-5 text-2xl">{title}</h3><p className="mt-4 text-sm leading-7 text-[var(--ink-soft)]">{text}</p></article>)}</div>
         </div>
       </section>
 

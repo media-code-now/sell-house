@@ -1,3 +1,4 @@
+import { siteUrl, pageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -10,7 +11,6 @@ import { marketSlugs, situationSlugs, seoMarkets, sellerSituations, localContent
 import { getNeighborhood, neighborhoodKeys } from "@/lib/location-content";
 
 type Props = { params: Promise<{ market: string; situation: string }> };
-const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://havenhomeoffers.com").replace(/\/$/, "");
 
 export function generateStaticParams() { return [...marketSlugs.flatMap((market) => situationSlugs.map((situation) => ({ market, situation }))), ...neighborhoodKeys.map((key) => { const [market, situation] = key.split("/"); return { market, situation }; })]; }
 
@@ -18,15 +18,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { market: marketParam, situation: situationParam } = await params;
   const neighborhood = getNeighborhood(marketParam, situationParam);
   if (neighborhood) {
-    const canonical = `${siteUrl}/${marketParam}/${situationParam}/`;
-    return { title: { absolute: `${neighborhood.title} | Haven Home Offers` }, description: neighborhood.description, alternates: { canonical }, openGraph: { title: neighborhood.title, description: neighborhood.description, url: canonical, type: "website", locale: "en_US", siteName: "Haven Home Offers", images: [{ url: `${siteUrl}/images/desert-home-hero.webp`, width: 1672, height: 941, alt: `${neighborhood.name}, Nevada home` }] }, twitter: { card: "summary_large_image", title: neighborhood.title, description: neighborhood.description, images: [`${siteUrl}/images/desert-home-hero.webp`] } };
+    return pageMetadata(neighborhood.title, neighborhood.description, `/${marketParam}/${situationParam}/`);
   }
   if (!isMarketSlug(marketParam) || !isSituationSlug(situationParam)) return {};
   const market = seoMarkets[marketParam]; const situation = sellerSituations[situationParam];
-  const title = `${situation.shortTitle} in ${market.city} | Haven Home Offers`;
   const description = situation.meta(market.city);
-  const canonical = `${siteUrl}/${marketParam}/${situationParam}/`;
-  return { title: { absolute: title }, description, alternates: { canonical }, openGraph: { title, description, url: canonical, type: "website", locale: "en_US", siteName: "Haven Home Offers", images: [{ url: `${siteUrl}/images/desert-home-hero.webp`, width: 1672, height: 941, alt: `${market.city} home at sunset` }] }, twitter: { card: "summary_large_image", title, description, images: [`${siteUrl}/images/desert-home-hero.webp`] } };
+  return pageMetadata(`${situation.shortTitle} in ${market.city}`, description, `/${marketParam}/${situationParam}/`);
 }
 
 export default async function SellerSituationPage({ params }: Props) {
@@ -40,7 +37,7 @@ export default async function SellerSituationPage({ params }: Props) {
   const related = situationSlugs.filter((slug) => slug !== situationSlug).slice(0, 3);
   const faqItems = [...situation.faqs, [`Is requesting an offer for my ${market.city} property an obligation to sell?`, "No. You can review the information and any available offer without agreeing to proceed."]];
   const jsonLd = { "@context": "https://schema.org", "@graph": [
-    { "@type": "WebPage", "@id": canonical, url: canonical, name: situation.h1(market.city), description: situation.meta(market.city), inLanguage: "en-US", isPartOf: { "@type": "WebSite", name: "Haven Home Offers", url: siteUrl }, about: { "@type": "Service", name: `${situation.shortTitle} options in ${market.city}`, areaServed: { "@type": "City", name: market.city, containedInPlace: { "@type": "State", name: market.state } }, serviceType: "Residential property sale options" } },
+    { "@type": "WebPage", "@id": canonical, url: canonical, name: situation.h1(market.city), description: situation.meta(market.city), inLanguage: "en-US", isPartOf: { "@id": `${siteUrl}/#website` }, publisher: { "@id": `${siteUrl}/#organization` }, about: { "@type": "Service", name: `${situation.shortTitle} options in ${market.city}`, areaServed: { "@type": "City", name: market.city, containedInPlace: { "@type": "State", name: market.state } }, serviceType: "Residential property sale options" } },
     { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` }, { "@type": "ListItem", position: 2, name: market.city, item: `${siteUrl}${market.marketPath}/` }, { "@type": "ListItem", position: 3, name: situation.shortTitle, item: canonical }] },
     { "@type": "FAQPage", mainEntity: faqItems.map(([question, answer]) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })) },
   ] };
