@@ -19,9 +19,8 @@ export async function POST(request: NextRequest) {
   const email = String(body.email ?? "").trim().toLowerCase();
   const contactConsent = body.contactConsent === true;
   const marketingConsent = body.marketingConsent === true;
-  const honeypot = String(body.hpCheck ?? "");
-
-  if (honeypot) return NextResponse.json({ error: "We couldn’t verify this request. Please try submitting again." }, { status: 422 });
+  // Older clients may send an autofilled hpCheck. Verify submissions with
+  // Turnstile instead of rejecting legitimate browser/password-manager autofill.
   if (!(await verifyTurnstile(request, String(body.turnstileToken ?? ""), "lead_submit"))) {
     console.error("[lead-submit] turnstile rejected", { hasToken: Boolean(body.turnstileToken) });
     return NextResponse.json({ error: "We couldn’t verify this request. Please try the security check again." }, { status: 422 });
