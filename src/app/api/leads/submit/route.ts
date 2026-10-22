@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   const email = String(body.email ?? "").trim().toLowerCase();
   const contactConsent = body.contactConsent === true;
   const marketingConsent = body.marketingConsent === true;
-  const honeypot = String(body.company ?? "");
+  const honeypot = String(body.hpCheck ?? "");
 
   if (honeypot) return NextResponse.json({ submitted: true });
   if (!(await verifyTurnstile(request, String(body.turnstileToken ?? "")))) {
