@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
   const marketingConsent = body.marketingConsent === true;
   const honeypot = String(body.hpCheck ?? "");
 
-  if (honeypot) return NextResponse.json({ submitted: true });
+  if (honeypot) return NextResponse.json({ error: "We couldn’t verify this request. Please try submitting again." }, { status: 422 });
   if (!(await verifyTurnstile(request, String(body.turnstileToken ?? ""), "lead_submit"))) {
     console.error("[lead-submit] turnstile rejected", { hasToken: Boolean(body.turnstileToken) });
     return NextResponse.json({ error: "We couldn’t verify this request. Please try the security check again." }, { status: 422 });
@@ -50,6 +50,6 @@ export async function POST(request: NextRequest) {
     p_ip: ip,
     p_user_agent: userAgent,
   });
-  if (error) { console.error("[lead-submit] finalize_lead_draft failed", { code: error.code, message: error.message, details: error.details, hint: error.hint }); return NextResponse.json({ error: "We couldn’t submit your request. Please try again." }, { status: 500 }); }
+  if (error || typeof data !== "string" || !/^[0-9a-f-]{36}$/i.test(data)) { console.error("[lead-submit] finalize_lead_draft failed", { code: error?.code, message: error?.message, details: error?.details, hint: error?.hint, hasLeadId: Boolean(data) }); return NextResponse.json({ error: "We couldn’t submit your request. Please try again." }, { status: 500 }); }
   return NextResponse.json({ submitted: true, leadId: data });
 }

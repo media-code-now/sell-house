@@ -19,8 +19,12 @@ export async function POST(request: NextRequest) {
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const latest = new Date(today); latest.setDate(latest.getDate() + 60);
   if (selected < today || selected > latest) return NextResponse.json({ error: "Choose a date within the next 60 days." }, { status: 422 });
-  const { data: draft, error: draftError } = await supabase.from("lead_drafts").select("completed_lead_id").eq("draft_token", body.draftToken).single();
-  if (draftError || !draft?.completed_lead_id) return NextResponse.json({ error: "We couldn’t find your submitted request." }, { status: 404 });
+  const { data: draft, error: draftError } = await supabase.from("lead_drafts").select("completed_lead_id").eq("draft_token", body.draftToken).maybeSingle();
+  if (draftError) {
+    console.error("[lead-schedule] draft lookup failed", { code: draftError.code, message: draftError.message });
+    return NextResponse.json({ error: "We couldn’t load your request. Please try scheduling again." }, { status: 500 });
+  }
+  if (!draft?.completed_lead_id) return NextResponse.json({ error: "Your submission wasn’t saved or is no longer available. Please return to the property form and submit your request again." }, { status: 404 });
   const { error } = await supabase.from("lead_timeline_events").insert({ lead_id: draft.completed_lead_id, event_type: "call_requested", metadata: { preferred_date: body.preferredDate, preferred_window: body.preferredWindow } });
   if (error) return NextResponse.json({ error: "We couldn’t schedule the call. Please try again." }, { status: 500 });
   return NextResponse.json({ scheduled: true });

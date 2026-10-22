@@ -115,11 +115,12 @@ export function PropertyQuestionnaire({ initialAddress = "" }: { initialAddress?
       const response = await fetch("/api/leads/submit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ draftToken, ...contact, turnstileToken }) });
       const result = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(result.error || "We couldn’t submit your request.");
+      if (result.submitted !== true || typeof result.leadId !== "string" || !/^[0-9a-f-]{36}$/i.test(result.leadId)) throw new Error("We couldn’t confirm your request was saved. Please try submitting again.");
       trackAcquisitionEvent("offer_form_completed",draftToken,{draftToken,marketSlug:inferMarketSlug(answers.address)});
       sessionStorage.setItem("haven-submission-summary", JSON.stringify({ address: answers.address, draftToken }));
       localStorage.removeItem(STORAGE_KEY); localStorage.removeItem(TOKEN_KEY);
       router.push("/offer/thank-you");
-    } catch (cause) { setError(cause instanceof Error ? cause.message : "We couldn’t submit your request. Please try again."); setTurnstileToken(""); setChallengeVersion((value) => value + 1); setBusy(false); }
+    } catch (cause) { setError(cause instanceof Error ? cause.message : "We couldn’t submit your request. Please try again."); setContact((current) => ({ ...current, hpCheck: "" })); setTurnstileToken(""); setChallengeVersion((value) => value + 1); setBusy(false); }
   }
 
   return (
