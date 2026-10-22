@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   const honeypot = String(body.hpCheck ?? "");
 
   if (honeypot) return NextResponse.json({ submitted: true });
-  if (!(await verifyTurnstile(request, String(body.turnstileToken ?? "")))) {
+  if (!(await verifyTurnstile(request, String(body.turnstileToken ?? ""), "lead_submit"))) {
     console.error("[lead-submit] turnstile rejected", { hasToken: Boolean(body.turnstileToken) });
     return NextResponse.json({ error: "We couldn’t verify this request. Please try the security check again." }, { status: 422 });
   }
