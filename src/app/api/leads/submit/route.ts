@@ -23,6 +23,7 @@ export async function POST(request: NextRequest) {
 
   if (honeypot) return NextResponse.json({ submitted: true });
   if (!(await verifyTurnstile(request, String(body.turnstileToken ?? "")))) {
+    console.error("[lead-submit] turnstile rejected", { hasToken: Boolean(body.turnstileToken) });
     return NextResponse.json({ error: "We couldn’t verify this request. Please try the security check again." }, { status: 422 });
   }
   if (!/^[0-9a-f-]{36}$/i.test(draftToken)) return NextResponse.json({ error: "Your saved session has expired. Please restart the form." }, { status: 400 });
@@ -49,6 +50,6 @@ export async function POST(request: NextRequest) {
     p_ip: ip,
     p_user_agent: userAgent,
   });
-  if (error) return NextResponse.json({ error: "We couldn’t submit your request. Please try again." }, { status: 500 });
+  if (error) { console.error("[lead-submit] finalize_lead_draft failed", { code: error.code, message: error.message, details: error.details, hint: error.hint }); return NextResponse.json({ error: "We couldn’t submit your request. Please try again." }, { status: 500 }); }
   return NextResponse.json({ submitted: true, leadId: data });
 }
