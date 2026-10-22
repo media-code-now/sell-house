@@ -5,3 +5,11 @@ node_modules
 *.tsbuildinfo
 .DS_Store
 supabase/seed.sql
+
+# Local Netlify folder
+.netlify
+
+# Vendored agent skills (restore with: npx skills experimental_install)
+.agents/
+.claude/
+agent/
