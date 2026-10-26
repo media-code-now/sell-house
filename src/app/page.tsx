@@ -56,18 +56,18 @@ const faqs = [
 
 export default function HomePage() {
   return (
-    <main className="overflow-x-clip pb-20 md:pb-0">
+    <main className="overflow-x-clip pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-0">
       <StructuredData data={{ "@context": "https://schema.org", "@graph": [
         { "@type": "WebPage", "@id": `${absoluteUrl()}#webpage`, url: absoluteUrl(), name: corePages["/"].title, description: corePages["/"].description, isPartOf: { "@id": `${absoluteUrl()}#website` }, about: { "@id": `${absoluteUrl()}#organization` } },
         { "@type": "FAQPage", mainEntity: faqs.map(([question, answer]) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })) },
       ] }} />
       <section className="relative min-h-[780px] overflow-hidden bg-[var(--ink)] text-white lg:min-h-[830px]">
-        <Image src="/images/desert-home-hero.webp" alt="Contemporary home at sunset" fill priority className="object-cover object-[66%_center] opacity-70" sizes="100vw" />
+        <Image src="/images/desert-home-hero.webp" alt="Contemporary home at sunset" fill preload className="object-cover object-[66%_center] opacity-70" sizes="100vw" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,24,31,.98)_0%,rgba(10,24,31,.9)_45%,rgba(10,24,31,.25)_82%)]" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a181f]/70 via-transparent to-transparent" />
         <SiteHeader />
         <div className="container-shell relative z-10 flex min-h-[780px] items-center pb-16 pt-32 lg:min-h-[830px]">
-          <div className="max-w-3xl animate-rise">
+          <div className="max-w-3xl">
             <p className="eyebrow flex items-center gap-2 text-[#edb891]"><span className="h-px w-7 bg-current" />A clear path to your next chapter</p>
             <h1 className="font-display text-balance mt-5 text-[3.25rem] leading-[.96] sm:text-7xl lg:text-[5.35rem]">Sell Your House Fast in Las Vegas</h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-white/75 sm:text-xl">Get a fair cash offer for your property. No repairs, no cleaning, no commissions, and no obligation.</p>
@@ -80,7 +80,7 @@ export default function HomePage() {
 
       <section className="bg-white py-20 sm:py-28" id="how-it-works">
         <div className="container-shell"><SectionHeading eyebrow="How it works" title="From address to offer in three simple steps." text="A straightforward process built to give you answers, flexibility, and control." />
-          <div className="mt-14 grid gap-5 lg:grid-cols-3">{steps.map(({icon: Icon,number,title,text}) => <article key={number} className="relative rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-7 sm:p-9"><span className="absolute right-7 top-6 font-display text-5xl text-[var(--ink)]/8">{number}</span><div className="grid size-12 place-items-center rounded-full bg-[var(--sage)]"><Icon className="size-5" /></div><h3 className="mt-8 text-xl font-bold">{title}</h3><p className="mt-3 text-sm leading-6 text-[var(--ink-soft)]">{text}</p></article>)}</div>
+          <div className="mt-14 grid gap-5 lg:grid-cols-3">{steps.map(({icon: Icon,number,title,text}) => <article key={number} className="relative rounded-3xl border border-[var(--line)] bg-[var(--paper)] p-7 sm:p-9"><span aria-hidden="true" className="absolute right-7 top-6 font-display text-5xl text-[var(--ink-soft)]/75">{number}</span><div className="grid size-12 place-items-center rounded-full bg-[var(--sage)]"><Icon className="size-5" /></div><h3 className="mt-8 text-xl font-bold">{title}</h3><p className="mt-3 text-sm leading-6 text-[var(--ink-soft)]">{text}</p></article>)}</div>
           <div className="mt-10 text-center"><ButtonLink href="#final-offer">Get My Cash Offer</ButtonLink></div>
         </div>
       </section>
@@ -136,7 +136,7 @@ export default function HomePage() {
       <SellerGuideLinks />
       <SiteFooter />
 
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-white/95 p-3 shadow-[0_-10px_35px_rgba(15,28,35,.12)] backdrop-blur md:hidden"><a href="#final-offer" className="focus-ring flex min-h-14 items-center justify-center gap-2 rounded-xl bg-[var(--copper)] px-5 text-sm font-bold text-white">Get My Cash Offer <ArrowRight className="size-4"/></a></div>
+      <div className="mobile-offer-cta fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-white/95 p-3 pb-[max(.75rem,env(safe-area-inset-bottom))] shadow-[0_-10px_35px_rgba(15,28,35,.12)] backdrop-blur md:hidden"><a href="#final-offer" className="focus-ring flex min-h-14 items-center justify-center gap-2 rounded-xl bg-[var(--copper)] px-5 text-sm font-bold text-white">Get My Cash Offer <ArrowRight className="size-4"/></a></div>
     </main>
   );
 }

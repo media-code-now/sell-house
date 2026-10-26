@@ -25,7 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteStructuredData />
         <Suspense fallback={null}><AnalyticsTracker/></Suspense>
         {children}
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-VYN7MJHQEE" strategy="afterInteractive" />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-VYN7MJHQEE" strategy="lazyOnload" />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
