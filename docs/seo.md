@@ -6,13 +6,19 @@ Public pages use `src/lib/seo.ts` for titles, descriptions, canonical URLs, Open
 
 `/sitemap.xml` lists canonical public pages. Redirected location aliases, private routes, unsubscribe, completed offer flows, and unfinished legal pages are excluded. `/robots.txt` permits public content for search engines and AI crawlers, while disallowing APIs and acquisitions. `noindex` metadata excludes utility pages; additional `X-Robots-Tag` headers cover API, acquisitions, thank-you, and unsubscribe responses. Robots rules do not replace authentication.
 
-The homepage identifies the organization and website. Public guides describe pages, breadcrumbs, services, and visible questions. No invented address, phone number, ratings, customer reviews, transaction history, or staff credentials have been added. The sharing image is generated at `/share-image/`; the tab icon follows the existing brand mark.
+The root layout identifies the organization, website, and home-buying service. Public guides describe pages, breadcrumbs, articles, and visible questions. No invented address, phone number, ratings, customer reviews, transaction history, or staff credentials have been added. The sharing image is generated at `/share-image/`; the tab icon follows the existing brand mark.
 
 `/llms.txt` is a concise, optional directory for systems that choose to read it. It does not guarantee AI citations or improve Google rankings. Readable server-rendered content, useful local detail, internal links, accurate claims, and crawlability remain the foundation. Existing FAQ markup describes visible answers; it is not a promise of a Google rich result.
 
 ## Verify changes
 
 Run `npm run lint`, `npx tsc --noEmit`, and `npm run build`. Start the production server with `npm start`, then run `python3 scripts/check-seo.py http://localhost:3000`. The smoke check reads every sitemap page and checks unique metadata, canonical/share URLs, JSON-LD parsing, H1s, exclusions, crawler files, assets, and unknown-page status. It also works against a deployed origin.
+
+On macOS, if the Python installation lacks its own CA bundle, use the system trust bundle while retaining certificate validation:
+
+```sh
+SSL_CERT_FILE=/etc/ssl/cert.pem python3 scripts/check-seo.py https://sellhomefastvegas.com
+```
 
 ## Production follow-through
 

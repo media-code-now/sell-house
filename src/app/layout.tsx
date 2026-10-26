@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Suspense } from "react";
 import { AnalyticsTracker } from "@/components/analytics-tracker";
+import { SiteStructuredData } from "@/components/structured-data";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body>
+        <SiteStructuredData />
         <Suspense fallback={null}><AnalyticsTracker/></Suspense>
         {children}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-VYN7MJHQEE" strategy="afterInteractive" />

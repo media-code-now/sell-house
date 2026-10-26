@@ -31,6 +31,7 @@ export const corePages = {
   "/how-it-works/": { title: "How Our Cash Home Offer Process Works", description: "Share your property details, review a no-obligation cash offer, and choose your closing timeline. Learn how a direct home sale works with Haven." },
   "/selling-options/": { title: "Compare Your Home Selling Options", description: "Explore direct-sale options for inherited homes, repairs, rental properties, relocation, and mortgage pressure across the Las Vegas Valley." },
   "/locations/": { title: "Las Vegas Valley Areas We Serve", description: "Explore cash home sale options in Las Vegas, Henderson, North Las Vegas, Summerlin, and southwest Las Vegas, with local property guides." },
+  "/guides/": { title: "Las Vegas Home Selling Guides", description: "Compare cash home offers and prepare to sell your Las Vegas Valley house as-is with practical checklists and questions to ask before signing." },
   "/offer/": { title: "Request a Cash Offer for Your Home", description: "Tell Haven Home Offers about your Las Vegas Valley property to request a free cash offer. No repairs required and no obligation to accept." },
 } as const;
 

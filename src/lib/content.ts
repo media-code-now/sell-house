@@ -22,5 +22,6 @@ export const navItems = [
   { href: "/how-it-works", label: "How it works" },
   { href: "/selling-options", label: "Selling options" },
   { href: "/locations", label: "Locations" },
+  { href: "/guides", label: "Seller guides" },
   { href: "/about", label: "About" },
 ] as const;

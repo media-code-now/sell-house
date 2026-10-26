@@ -15,7 +15,7 @@ export function InteriorPage({ path, eyebrow, title, description, children }: { 
   const heroImage = path ? heroImages[path] : undefined;
   return <>
     <main>
-      {path && <PageStructuredData path={path} title={title} description={description} type={path === "/about/" ? "AboutPage" : path === "/locations/" ? "CollectionPage" : "WebPage"} />}
+      {path && <PageStructuredData path={path} title={title} description={description} type={path === "/about/" ? "AboutPage" : (path === "/locations/" || path === "/guides/") ? "CollectionPage" : "WebPage"} />}
       <div className="relative overflow-hidden bg-[var(--ink)] pb-20 pt-36 text-white">
         <SiteHeader />
         <div className={`container-shell relative z-10 ${heroImage ? "grid items-center gap-10 lg:grid-cols-[1.15fr_.85fr] lg:gap-14" : ""}`}>

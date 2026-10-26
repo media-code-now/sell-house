@@ -1,3 +1,4 @@
+import { sellerGuides } from "@/lib/seller-guides";
 import { absoluteUrl, corePages, siteName } from "@/lib/seo";
 import { cities, neighborhoods } from "@/lib/location-content";
 import { marketSlugs, seoMarkets, sellerSituations, situationSlugs } from "@/lib/seo-landing-content";
@@ -11,6 +12,8 @@ export function GET() {
     "Offers are subject to property, ownership, title, and market review. Requesting an offer is free and does not obligate the homeowner to sell. Closing timelines vary. A direct sale can involve different pricing and tradeoffs from a traditional listing.", "",
     "## Main pages", "",
     ...Object.entries(corePages).map(([path, page]) => `- [${page.title}](${absoluteUrl(path)}): ${page.description}`), "",
+    "## Home selling resources", "",
+    ...sellerGuides.map((guide) => `- [${guide.title}](${absoluteUrl(`/guides/${guide.slug}/`)}): ${guide.description}`), "",
     "## Local guides", "",
     ...Object.values(cities).map((city) => `- [${city.name}](${absoluteUrl(`/${city.slug}/`)}): ${city.description}`),
     ...Object.values(neighborhoods).map((area) => `- [${area.name}](${absoluteUrl(`/${area.parentSlug}/${area.slug}/`)}): ${area.description}`), "",

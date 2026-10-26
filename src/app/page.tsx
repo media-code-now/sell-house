@@ -1,4 +1,5 @@
-import { coreMetadata, absoluteUrl, corePages, siteName } from "@/lib/seo";
+import { coreMetadata, absoluteUrl, corePages } from "@/lib/seo";
+import { SellerGuideLinks } from "@/components/seller-guide-links";
 import { StructuredData } from "@/components/structured-data";
 
 import Image from "next/image";
@@ -57,8 +58,6 @@ export default function HomePage() {
   return (
     <main className="overflow-x-clip pb-20 md:pb-0">
       <StructuredData data={{ "@context": "https://schema.org", "@graph": [
-        { "@type": "Organization", "@id": `${absoluteUrl()}#organization`, name: siteName, url: absoluteUrl(), description: corePages["/"].description, areaServed: Object.values(cities).map((city) => ({ "@type": "City", name: city.name, containedInPlace: { "@type": "State", name: "Nevada" } })) },
-        { "@type": "WebSite", "@id": `${absoluteUrl()}#website`, url: absoluteUrl(), name: siteName, inLanguage: "en-US", publisher: { "@id": `${absoluteUrl()}#organization` } },
         { "@type": "WebPage", "@id": `${absoluteUrl()}#webpage`, url: absoluteUrl(), name: corePages["/"].title, description: corePages["/"].description, isPartOf: { "@id": `${absoluteUrl()}#website` }, about: { "@id": `${absoluteUrl()}#organization` } },
         { "@type": "FAQPage", mainEntity: faqs.map(([question, answer]) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })) },
       ] }} />
@@ -134,6 +133,7 @@ export default function HomePage() {
       </section>
 
       <section id="final-offer" className="relative overflow-hidden bg-[var(--ink)] py-20 text-white sm:py-28"><div className="absolute -right-24 -top-24 size-96 rounded-full bg-[#31505b]/45 blur-3xl"/><div className="container-shell relative z-10"><div className="mx-auto max-w-3xl text-center"><p className="eyebrow text-[#edb891]">Ready when you are</p><h2 className="font-display text-balance mt-4 text-4xl leading-tight sm:text-6xl">It starts with your property address.</h2><p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/65">Find out what a simple, as-is sale could look like. It’s free and there’s no obligation.</p><AddressOfferForm theme="dark" className="mx-auto mt-9 max-w-2xl text-left"/><div className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-white/55"><span className="flex items-center gap-2"><ShieldCheck className="size-4"/>Private and secure</span><span className="flex items-center gap-2"><BadgeCheck className="size-4"/>No obligation</span></div></div></div></section>
+      <SellerGuideLinks />
       <SiteFooter />
 
       <div className="fixed inset-x-0 bottom-0 z-50 border-t border-black/10 bg-white/95 p-3 shadow-[0_-10px_35px_rgba(15,28,35,.12)] backdrop-blur md:hidden"><a href="#final-offer" className="focus-ring flex min-h-14 items-center justify-center gap-2 rounded-xl bg-[var(--copper)] px-5 text-sm font-bold text-white">Get My Cash Offer <ArrowRight className="size-4"/></a></div>

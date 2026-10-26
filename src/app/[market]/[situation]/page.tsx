@@ -1,4 +1,5 @@
-import { siteUrl, pageMetadata } from "@/lib/seo";
+import { SellerGuideLinks } from "@/components/seller-guide-links";
+import { siteUrl, pageMetadata, absoluteUrl } from "@/lib/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -38,7 +39,7 @@ export default async function SellerSituationPage({ params }: Props) {
   const faqItems = [...situation.faqs, [`Is requesting an offer for my ${market.city} property an obligation to sell?`, "No. You can review the information and any available offer without agreeing to proceed."]];
   const jsonLd = { "@context": "https://schema.org", "@graph": [
     { "@type": "WebPage", "@id": canonical, url: canonical, name: situation.h1(market.city), description: situation.meta(market.city), inLanguage: "en-US", isPartOf: { "@id": `${siteUrl}/#website` }, publisher: { "@id": `${siteUrl}/#organization` }, about: { "@type": "Service", name: `${situation.shortTitle} options in ${market.city}`, areaServed: { "@type": "City", name: market.city, containedInPlace: { "@type": "State", name: market.state } }, serviceType: "Residential property sale options" } },
-    { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` }, { "@type": "ListItem", position: 2, name: market.city, item: `${siteUrl}${market.marketPath}/` }, { "@type": "ListItem", position: 3, name: situation.shortTitle, item: canonical }] },
+    { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` }, { "@type": "ListItem", position: 2, name: market.city, item: absoluteUrl(market.marketPath) }, { "@type": "ListItem", position: 3, name: situation.shortTitle, item: canonical }] },
     { "@type": "FAQPage", mainEntity: faqItems.map(([question, answer]) => ({ "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } })) },
   ] };
 
@@ -60,6 +61,8 @@ export default async function SellerSituationPage({ params }: Props) {
     <section className="bg-[var(--paper)] py-20 sm:py-24"><div className="container-shell grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:gap-20"><div><p className="eyebrow text-[var(--copper-dark)]">Questions homeowners ask</p><h2 className="font-display mt-4 text-4xl sm:text-5xl">{market.city} {situation.label.toLowerCase()} FAQs</h2></div><div className="divide-y divide-[var(--line)] border-y border-[var(--line)]">{faqItems.map(([question,answer])=><details key={question} className="group"><summary className="focus-ring flex cursor-pointer list-none items-center justify-between gap-5 rounded py-5 font-bold"><span>{question}</span><span className="grid size-7 shrink-0 place-items-center rounded-full bg-white text-lg transition group-open:rotate-45">+</span></summary><p className="pb-6 pr-8 text-sm leading-7 text-[var(--ink-soft)]">{answer}</p></details>)}</div></div></section>
 
     <section className="bg-white py-16"><div className="container-shell"><p className="eyebrow text-[var(--copper-dark)]">Related {market.city} guides</p><div className="mt-7 grid gap-3 md:grid-cols-3">{related.map((slug)=><Link key={slug} href={`/${marketSlug}/${slug}/`} className="group flex items-center justify-between rounded-2xl border border-[var(--line)] p-5 font-bold transition hover:border-[var(--copper)]">{sellerSituations[slug].shortTitle}<ArrowRight className="size-4 transition group-hover:translate-x-1"/></Link>)}</div><Link href={market.marketPath} className="focus-ring mt-6 inline-flex rounded text-sm font-bold text-[var(--copper-dark)]">View the {market.city} market page</Link></div></section>
+
+    <SellerGuideLinks />
 
     <section className="relative overflow-hidden bg-[var(--ink)] py-20 text-white sm:py-24"><div className="container-shell relative z-10"><div className="mx-auto max-w-3xl text-center"><p className="eyebrow text-[#edb891]">A no-obligation next step</p><h2 className="font-display text-balance mt-4 text-4xl sm:text-6xl">See what a direct sale could look like.</h2><p className="mx-auto mt-5 max-w-2xl leading-7 text-white/60">Enter the {market.city} property address to begin. We’ll review the information before discussing any offer.</p><AddressOfferForm theme="dark" className="mx-auto mt-9 max-w-2xl text-left"/></div></div></section><SiteFooter/>
   </main>;
