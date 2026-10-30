@@ -21,11 +21,17 @@ class Page(HTMLParser):
         self.meta, self.canonicals, self.schemas = {}, [], []
         self.titles, self.h1s = [], 0
         self.links, self.ids = set(), set()
+        self.visible_text = []
+        self.in_script = self.in_style = False
         self.in_title = self.in_schema = False
         self.feed(html)
 
     def handle_starttag(self, tag, attributes):
         attrs = dict(attributes)
+        if tag == "script":
+            self.in_script = True
+        if tag == "style":
+            self.in_style = True
         if attrs.get("id"):
             self.ids.add(attrs["id"])
         if tag == "a" and attrs.get("href"):
@@ -46,8 +52,13 @@ class Page(HTMLParser):
             self.in_title = False
         if tag == "script":
             self.in_schema = False
+            self.in_script = False
+        if tag == "style":
+            self.in_style = False
 
     def handle_data(self, data):
+        if not self.in_script and not self.in_style:
+            self.visible_text.append(data)
         if self.in_title:
             self.titles.append(data)
         if self.in_schema:
@@ -97,6 +108,13 @@ for url in urls:
     assert "No verified testimonials published yet" not in body.decode(), (path, "empty review placeholder")
     if path.startswith("/guides/") and path != "/guides/":
         assert any(entity.get("@type") == "Article" for entity in entities), (path, "missing article schema")
+        assert page.meta.get("og:type") == "article", (path, "missing article sharing type")
+        visible = " ".join(" ".join(page.visible_text).split())
+        for entity in entities:
+            if entity.get("@type") == "FAQPage":
+                for question in entity["mainEntity"]:
+                    assert " ".join(question["name"].split()) in visible, (path, "FAQ question missing from content")
+                    assert " ".join(question["acceptedAnswer"]["text"].split()) in visible, (path, "FAQ answer missing from content")
         for href in page.links:
             if href.startswith("#"):
                 assert href[1:] in page.ids, (path, "broken table of contents", href)

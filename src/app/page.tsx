@@ -30,10 +30,10 @@ const reasons = [
   { icon: Handshake, title: "Make a pressure-free decision", text: "Review your offer, ask questions, and decide without obligation or pushy sales tactics." },
 ];
 const sellerSituations = [
-  { icon: Landmark, title: "Behind on payments" }, { icon: Scale, title: "Foreclosure pressure" },
-  { icon: KeyRound, title: "Inherited property" }, { icon: UsersRound, title: "Probate" },
-  { icon: HeartCrack, title: "Divorce" }, { icon: Home, title: "Vacant property" },
-  { icon: Paintbrush, title: "Major repairs" }, { icon: Sparkles, title: "Need to sell quickly" },
+  { icon: Landmark, title: "Behind on payments", href: "/las-vegas/behind-on-mortgage/" }, { icon: Scale, title: "Foreclosure pressure", href: "/las-vegas/avoid-foreclosure/" },
+  { icon: KeyRound, title: "Inherited property", href: "/las-vegas/sell-inherited-house/" }, { icon: UsersRound, title: "Probate", href: "/las-vegas/sell-inherited-house/" },
+  { icon: HeartCrack, title: "Divorce", href: "/las-vegas/sell-house-during-divorce/" }, { icon: Home, title: "Vacant property", href: "/las-vegas/sell-vacant-house/" },
+  { icon: Paintbrush, title: "Major repairs", href: "/las-vegas/sell-house-needing-repairs/" }, { icon: Sparkles, title: "Need to sell quickly", href: "/guides/how-long-to-sell-house-las-vegas/" },
 ];
 const comparison = [
   ["Repairs", "None required", "Often expected"], ["Agent commission", "$0", "Negotiated with your agent"],
@@ -91,7 +91,7 @@ export default function HomePage() {
 
       <section className="bg-[#193039] py-20 text-white sm:py-28">
         <div className="container-shell"><SectionHeading dark eyebrow="Whatever brought you here" title="We understand that every home sale has a story." text="You don’t need a perfect property or a perfect situation to explore your options." />
-          <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4">{sellerSituations.map(({icon: Icon,title}) => <div key={title} className="rounded-2xl border border-white/12 bg-white/[.045] p-5 sm:p-6"><Icon className="size-5 text-[#edb891]"/><p className="mt-4 text-sm font-bold leading-5">{title}</p></div>)}</div>
+          <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4">{sellerSituations.map(({icon: Icon,title,href}) => <Link key={title} href={href} className="focus-ring rounded-2xl border border-white/12 bg-white/[.045] p-5 transition hover:border-[#edb891] hover:bg-white/10 sm:p-6"><Icon className="size-5 text-[#edb891]"/><h3 className="mt-4 text-sm font-bold leading-5">{title}</h3><span className="mt-3 inline-flex items-center gap-1 text-xs text-[#edb891]">Explore your options<ArrowRight className="size-3"/></span></Link>)}</div>
           <div className="mt-10 flex justify-center"><ButtonLink href="/selling-options" variant="light">See My Selling Options</ButtonLink></div>
         </div>
       </section>

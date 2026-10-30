@@ -30,3 +30,9 @@ SSL_CERT_FILE=/etc/ssl/cert.pem python3 scripts/check-seo.py https://sellhomefas
 6. Update guides when business practices or local requirements change. Add substantive first-hand information and authoritative sources; avoid generating near-identical location pages merely to target keywords. Have relevant qualified reviewers check guides discussing legal, mortgage, probate, or tax matters.
 
 References: [Google's AI optimization guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide), [organization structured data](https://developers.google.com/search/docs/appearance/structured-data/organization), and [structured data policies](https://developers.google.com/search/docs/appearance/structured-data/sd-policies).
+
+## Seller content coverage
+
+The guide library covers comparing offers, as-is preparation, selling timelines, and cash-sale costs. New guides are automatically included in static routes, the sitemap, the guide index, shared guide links, and `/llms.txt`. Guide FAQs are optional; when provided, the same entries render visible answers and FAQ structured data. Guide sharing metadata uses the article type. Keep claims specific to the written offer and avoid promising a fixed closing time or universal zero-cost sale.
+
+Homepage situation cards link directly to the matching Las Vegas situation page or timeline guide. Preserve these contextual links when changing homepage design.

@@ -26,13 +26,13 @@ export function pageMetadata(title: string, description: string, path: string, i
 }
 
 export const corePages = {
-  "/": { title: "Sell Your House Fast in Las Vegas, NV", description: "Request a no-obligation cash offer for your Las Vegas Valley home. Sell as-is in Las Vegas, Henderson, or North Las Vegas with no agent commission." },
+  "/": { title: "Sell Your House Fast in Las Vegas, NV for Cash", description: "Request a no-obligation cash offer for your Las Vegas Valley home. Sell as-is in Las Vegas, Henderson, or North Las Vegas with no agent commission." },
   "/about/": { title: "About Haven Home Offers", description: "Learn how Haven Home Offers helps Las Vegas Valley homeowners explore a direct, as-is home sale with clear choices and no obligation." },
-  "/how-it-works/": { title: "How Our Cash Home Offer Process Works", description: "Share your property details, review a no-obligation cash offer, and choose your closing timeline. Learn how a direct home sale works with Haven." },
+  "/how-it-works/": { title: "How to Sell Your Las Vegas House for Cash", description: "Share your property details, review a no-obligation cash offer, and choose your closing timeline. Learn how a direct home sale works with Haven." },
   "/selling-options/": { title: "Compare Your Home Selling Options", description: "Explore direct-sale options for inherited homes, repairs, rental properties, relocation, and mortgage pressure across the Las Vegas Valley." },
   "/locations/": { title: "Las Vegas Valley Areas We Serve", description: "Explore cash home sale options in Las Vegas, Henderson, North Las Vegas, Summerlin, and southwest Las Vegas, with local property guides." },
   "/guides/": { title: "Las Vegas Home Selling Guides", description: "Compare cash home offers and prepare to sell your Las Vegas Valley house as-is with practical checklists and questions to ask before signing." },
-  "/offer/": { title: "Request a Cash Offer for Your Home", description: "Tell Haven Home Offers about your Las Vegas Valley property to request a free cash offer. No repairs required and no obligation to accept." },
+  "/offer/": { title: "Get a Cash Offer for Your Las Vegas House", description: "Tell Haven Home Offers about your Las Vegas Valley property to request a free cash offer. No repairs required and no obligation to accept." },
 } as const;
 
 export function coreMetadata(path: keyof typeof corePages) {
